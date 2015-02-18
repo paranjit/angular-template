@@ -6,7 +6,7 @@
         'app.core',
 
         // Features
-        'app.dashboard',
-        'app.profile'
+        'app.login',
+        'app.dashboard'
     ]);
 })();

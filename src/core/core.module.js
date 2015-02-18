@@ -3,10 +3,10 @@
 
     angular.module('app.core', [
         // Angular modules
-        'ngAnimate', 'ngSanitize',
+        //'ngAnimate', 'ngSanitize',
 
         // Our reusable framework
-        'fw.exception', 'fw.logger', 'fw.router',
+       	//'fw.exception', 'fw.logger', 'fw.router',
 
         // 3rd Party modules
         'ui.router'

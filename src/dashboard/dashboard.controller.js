@@ -1,31 +1,88 @@
-(function() {
-    'use strict';
+(function(){
+	'use strict';
+	angular
+		.module('app.dashboard')
+		.controller('dashboardController',dashboardController);
 
-    angular
-        .module('app.dashboard')
-        .controller('DashboardController', DashboardController);
+	dashboardController.$inject = ['$location','sessionService','orderService','userService','instrumentService'];
 
-    DashboardController.$inject = ['accountService', 'logger'];
+	function dashboardController($location,sessionService,orderService,userService,instrumentService){
+		var vm = this;
+		vm.name = null;
+		vm.orderList = null;
+		var instrumentList = null;
+		vm.signOut = signOut;
+		vm.deleteAll = deleteAll;
+		vm.refresh = refresh;
+		vm.createOrder = createOrder;
 
-    /* @ngInject */
-    function DashboardController(accountService, logger) {
-        var vm = this;
+		activate();
 
-        vm.account = null;
+		function activate(){
+			getSession();
+			getOrders();
+			getInstrumentList();
+		}
 
-        activate();
+		function getSession(){
+			var selectedUser = sessionService.getSession();
+			if(!selectedUser)
+				signOut();
+			else
+				vm.name = selectedUser.name;
+		}
 
-        function activate() {
-            return getAccount().then(function() {
-                logger.info('Activated Dashboard View');
-            });
-        }
+		function getOrders(){
+			return orderService.getOrders().then(function(data){
+				vm.orderList = data;
+			});
+		}
 
-        function getAccount() {
-            return accountService.getAccount().then(function(data) {
-                vm.account = data;
-                return vm.account;
-            });
-        }
-    }
+
+		function createOrder(){
+			var data = createOrderList();
+			orderService.createOrder(data);
+
+			function createOrderList(){
+				var list = [];
+				var traderId = sessionService.getSession().id;
+
+				for(var i=0; i<vm.tradeCount;i++){
+					list.push(createValue());
+				}
+				return list;
+
+				function createValue(){
+					var data = {
+						side : ((Math.random()*10)<5?"Buy":"Sell") ,
+						symbol: instrumentList[parseInt(Math.random()*10)].symbol,
+						quantity: parseInt(Math.random()*10000),
+						limitPrice :  Math.round((Math.random()*1000) * 100) / 100,
+						traderId : traderId
+					};
+					return data;
+				}
+			}
+		}
+
+		function getInstrumentList(){
+			return instrumentService.getInstruments().then(function(data){
+				instrumentList = data;
+			})
+		}
+
+		function signOut(){
+			sessionService.removeSession();
+			$location.url('/');
+		}
+
+		function deleteAll(){
+			orderService.deleteOrders();
+		}
+
+		function refresh(){
+			getOrders();
+		}
+	}
+
 })();
