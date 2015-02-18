@@ -1,4 +1,8 @@
-
+@import "login/login";
 @import "dashboard/dashboard";
 
-.trader-heading{background:#eee}
+.navbar{
+	h2{
+		color:#fff;
+	}
+}

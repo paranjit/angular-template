@@ -30,9 +30,7 @@
 		}
 
 		function createOrder(data){
-			for(var i=0; i<data.length;i++){
-				$http.post(api+'/orders',data[i]);
-			}
+			$http.post(api+'/orders',data);
 		}
 
 		function deleteOrders(){

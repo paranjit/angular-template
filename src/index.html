@@ -7,9 +7,21 @@
     <link rel="stylesheet" href="/.tmp/app.css">
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="col-md-12 col-xs-12 trader-heading"><h1>Trader App</h1></div>
-        <div ui-view></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div class="navbar navbar-inverse">
+                    <div class="container">
+                        <h2>Trader App</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div ui-view></div>
+            </div>
+        </div>
     </div>
 
     <script src="/bower_components/jquery/dist/jquery.js"></script>

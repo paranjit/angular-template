@@ -40,28 +40,18 @@
 
 
 		function createOrder(){
-			var data = createOrderList();
+			var data = createOrderData();
 			orderService.createOrder(data);
 
-			function createOrderList(){
-				var list = [];
-				var traderId = sessionService.getSession().id;
-
-				for(var i=0; i<vm.tradeCount;i++){
-					list.push(createValue());
-				}
-				return list;
-
-				function createValue(){
-					var data = {
-						side : ((Math.random()*10)<5?"Buy":"Sell") ,
-						symbol: instrumentList[parseInt(Math.random()*10)].symbol,
-						quantity: parseInt(Math.random()*10000),
-						limitPrice :  Math.round((Math.random()*1000) * 100) / 100,
-						traderId : traderId
-					};
-					return data;
-				}
+			function createOrderData(){
+				var data = {
+					side : ((Math.random()*10)<5?"Buy":"Sell") ,
+					symbol: instrumentList[parseInt(Math.random()*10)].symbol,
+					quantity: vm.tradeCount,
+					limitPrice :  Math.round((Math.random()*1000) * 100) / 100,
+					traderId : sessionService.getSession().id
+				};
+				return data;
 			}
 		}
 
